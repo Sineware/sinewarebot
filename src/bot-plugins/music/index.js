@@ -49,7 +49,12 @@ async function playSong(search, msg) {
                 dispatcher.setBitrate("auto");
                 await msg.channel.send("Playing *" + search + "* from SoundCloud! :musical_note: ");
             } catch(e) {
-                msg.channel.send(":frowning: Error playing that song, moving on...");
+                await msg.channel.send(":frowning: Error playing that song, moving on...");
+                if(musicQueue.length === 0) {
+                    await msg.reply("No more songs left in the queue!");
+                    await stopAllPlayback();
+                    return;
+                }
                 msg.channel.send(e.message);
                 console.trace(e)
                 let next = musicQueue.shift();
@@ -64,7 +69,12 @@ async function playSong(search, msg) {
                 console.log(result)
                 console.log("Playing " + result.title + " ==> " + result.url);
                 if(typeof result.title === "undefined") {
-                    msg.channel.send(":frowning: Error playing that song, moving on...")
+                    await msg.channel.send(":frowning: Error playing that song, moving on...");
+                    if(musicQueue.length === 0) {
+                        await msg.reply("No more songs left in the queue!");
+                        await stopAllPlayback();
+                        return;
+                    }
                     let next = musicQueue.shift();
                     msg.channel.send("Playing next song: " + next);
                     await playSong(next, msg);
@@ -76,7 +86,12 @@ async function playSong(search, msg) {
                 dispatcher.setBitrate("auto");
                 await msg.channel.send("Playing *" + result.title + "* from YouTube... :musical_note:");
             } catch(e) {
-                msg.channel.send(":frowning: Error playing that song, moving on...")
+                await msg.channel.send(":frowning: Error playing that song, moving on...");
+                if(musicQueue.length === 0) {
+                    await msg.reply("No more songs left in the queue!");
+                    await stopAllPlayback();
+                    return;
+                }
                 let next = musicQueue.shift();
                 msg.channel.send("Playing next song: " + next);
                 await playSong(next, msg);

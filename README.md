@@ -76,6 +76,7 @@ Music
 !play - Plays or Queues a song in a VC (!play [song name])
 !stop - Stops playing music and leaves the VC
 !skip - Skip the current song
+!queue - Display the music queue
 
 Informational
 ----------
