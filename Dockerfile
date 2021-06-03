@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND="noninteractive" TZ="America/Toronto"
 
 # Install dependancies first.
 RUN apt-get update -y \
-    && apt-get install nodejs npm git ffmpeg graphicsmagick fortune cowsay python3-pip fonts-noto-color-emoji  youtube-dl -y
+    && apt-get install nodejs npm git ffmpeg graphicsmagick fortune cowsay python3-pip fonts-noto-color-emoji  youtube-dl python -y
 
 ENV PATH="/usr/games:${PATH}"
 
@@ -18,5 +18,8 @@ RUN npm ci
 
 COPY . .
 USER root
+
+RUN sudo ln -s /usr/bin/python3 /usr/bin/python
+
 CMD [ "node", "src/index.js" ]
 
