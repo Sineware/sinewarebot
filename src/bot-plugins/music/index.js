@@ -44,7 +44,7 @@ async function playSong(search, msg) {
                 });
                 console.log(out);
                 console.log("-> Creating SoundCloud file dispactcher...")
-                dispatcher = conn.playFile("song.wav");
+                dispatcher = conn.playFile("song.wav", {bitrate: "auto"});
                 dispatcher.setVolume(0.5);
                 dispatcher.setBitrate("auto");
                 await msg.channel.send("Playing *" + search + "* from SoundCloud! :musical_note: ");
@@ -81,7 +81,7 @@ async function playSong(search, msg) {
                     return;
                 }
                 ytdlStream = ytdl(result.url, { quality: "highestaudio", filter: 'audioonly' })
-                dispatcher = conn.playStream(ytdlStream);
+                dispatcher = conn.playStream(ytdlStream, {bitrate: "auto"});
                 dispatcher.setVolume(0.5);
                 dispatcher.setBitrate("auto");
                 await msg.channel.send("Playing *" + result.title + "* from YouTube... :musical_note:");
