@@ -1,8 +1,9 @@
-# BSSCC Bot
-## aka. dr. smoothie
+![SinewareBot Discord Edition Logo](logo.png)
+## SinewareBot aka. dr. smoothie
 
-A Discord bot with a handful of features. Originally developed 
-for the Bayview Computer Club Discord server.
+A Discord bot with a handful of features. Originally developed as BSSCCBot 
+for the Bayview Computer Club Discord server. The latest development 
+version is usually running on the ["espidev's things"](https://discord.gg/f2SZxU83Zr) Discord server.
 
 ### Features
 
