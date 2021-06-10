@@ -43,7 +43,7 @@ function init(client, cm, ap) {
         "category": "AGPL Compliance",
         "desc": "Links to the development source code repository",
         "handler": async (msg) => {
-            await msg.reply("https://github.com/BayviewComputerClub/bssccbot");
+            await msg.reply("https://github.com/Sineware/sinewarebot");
         }
     });
 }
