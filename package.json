@@ -1,11 +1,11 @@
 {
   "name": "bssccbot",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Bayview Computer Club's Discord Bot",
   "main": "src/index.js",
   "dependencies": {
-    "8ball": "^1.0.6",
     "@discordjs/opus": "^0.1.0",
+    "8ball": "^1.0.6",
     "axios": "^0.21.1",
     "bufferutil": "^4.0.1",
     "csv-parser": "^2.3.2",

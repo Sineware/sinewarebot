@@ -105,6 +105,9 @@ through environment variables.
 
 ![Webhook list](docs/translation/example-webhooks.png)
 
+Translation can also be done on an on-demand basis in any channel by reacting to messages with 🇰🇷 for Korean, 🇯🇵 for Japanese, and 
+ 🇺🇸/🇨🇦/🇬🇧 for English. The bot will respond with the translated message.
+
 **The system is currently a very rough prototype and proof of concept! Eventually support for more languages and customization will be added.**
 
 ### Environment Variables

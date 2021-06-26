@@ -1,11 +1,51 @@
 const axios = require("axios");
 const translateURL = process.env.TRANSLATE_API + "/translate"
+const truncate = require('truncate');
+
+async function detectLanguage(msg) {
+    let res = await axios.post(process.env.TRANSLATE_API + "/detect", {
+        q: msg,
+    });
+    return res.data[0].language;
+}
+
 async function init(client, cm, ap) {
     if(process.env.TRANSLATE_ENABLE !== 'true') {
         console.log("    -> This plugin is disabled.");
         return;
     }
     try {
+        client.on("messageReactionAdd", async (reaction, user) => {
+            //console.log(reaction.emoji);
+            if(reaction.emoji.name === '🇰🇷') {
+                let detectedLanguage = await detectLanguage(reaction.message.content);
+                let translation = await axios.post(translateURL, {
+                    q: reaction.message.content,
+                    source: detectedLanguage,
+                    target: "ko"
+                });
+                // todo use line reply when its available.
+                reaction.message.channel.send(translation.data.translatedText);
+            } else if(reaction.emoji.name === '🇯🇵') {
+                let detectedLanguage = await detectLanguage(reaction.message.content);
+                let translation = await axios.post(translateURL, {
+                    q: reaction.message.content,
+                    source: detectedLanguage,
+                    target: "ja"
+                });
+                reaction.message.channel.send(translation.data.translatedText);
+            } else if(reaction.emoji.name === '🇺🇸' || reaction.emoji.name === '🇨🇦' || reaction.emoji.name === '🇬🇧') {
+                let detectedLanguage = await detectLanguage(reaction.message.content);
+                let translation = await axios.post(translateURL, {
+                    q: reaction.message.content,
+                    source: detectedLanguage,
+                    target: "en"
+                });
+                reaction.message.channel.send(translation.data.translatedText);
+            }
+        });
+
+        // Channel Mirroring
         let enWebhook = await client.fetchWebhook(process.env.TRANSLATE_EN_WEBHOOKID, process.env.TRANSLATE_EN_WEBHOOKTOKEN);
         let koWebhook = await client.fetchWebhook(process.env.TRANSLATE_KO_WEBHOOKID, process.env.TRANSLATE_KO_WEBHOOKTOKEN);
         let jaWebhook = await client.fetchWebhook(process.env.TRANSLATE_JA_WEBHOOKID, process.env.TRANSLATE_JA_WEBHOOKTOKEN);

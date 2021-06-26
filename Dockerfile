@@ -19,7 +19,7 @@ RUN npm ci
 COPY . .
 USER root
 
-RUN sudo ln -s /usr/bin/python3 /usr/bin/python
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 CMD [ "node", "src/index.js" ]
 
