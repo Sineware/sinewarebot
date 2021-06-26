@@ -15,6 +15,7 @@ version is usually running on the ["espidev's things"](https://discord.gg/f2SZxU
 * !dmoj-problem and !dmoj-user [username]
 * Meme things (!fry @User, !celebrate [text] !celebrate-party [text])
 * Moderation features (!admin)
+* Real-time channel language translation (using [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate))
 
 ### Commands
 ```
@@ -85,6 +86,27 @@ Informational
 !about
 ```
 
+### Translation
+The Translation service in SinewareBot allows you to create multiple channels which mirror each other, but with 
+messages translated between the channels. For example:
+
+![Channel list of #general, #general-ko, and #general-ja](docs/translation/example-channel-list.png)
+
+When a message in English is typed into #general, it is automatically translated to Korean and Japanese:
+
+`#general`
+![English Message](docs/translation/example-original-msg.png)
+`#general-ko`
+![Translated Korean Message](docs/translation/example-translated-msg.png)
+
+The bot uses Webhooks to create messages in the channel with the user's name and avatar. Translation is handled by 
+LibreTranslate, which is a open source machine learning translation service you can self-host. Configuration is done 
+through environment variables.
+
+![Webhook list](docs/translation/example-webhooks.png)
+
+**The system is currently a very rough prototype and proof of concept! Eventually support for more languages and customization will be added.**
+
 ### Environment Variables
 The bot needs the following environment variables set:
 ```dotenv
@@ -96,6 +118,19 @@ CHAT_BOT_CHANNEL=channel id (where to run the chat bot)
 LINUX_VM_ENABLE=enables the linux vm ("true" or "false", no quotes please)
 MOD_ADMIN_ID=ID of the initial admin user
 MOD_JAIL_ROLE=ID of the role to give to jailed users (this role should disable their send messages perm for example)
+
+TRANSLATE_ENABLE=enables the translation service ("true" or "false", no quotes please)
+TRANSLATE_API=http://url (libretranslate api server)
+TRANSLATE_EN_WEBHOOKID=webhook id for the english channel
+TRANSLATE_EN_WEBHOOKTOKEN=webhook token for the english channel
+TRANSLATE_EN_CHANNELID=channel id for the english channel
+TRANSLATE_JA_WEBHOOKID=japanese
+TRANSLATE_JA_WEBHOOKTOKEN=
+TRANSLATE_JA_CHANNELID=
+TRANSLATE_KO_WEBHOOKID=korean
+TRANSLATE_KO_WEBHOOKTOKEN=
+TRANSLATE_KO_CHANNELID=
+
 SQL_USER=MS SQL Server user
 SQL_PASSWORD=MS SQL Server password
 SQL_SERVER=MS SQL Server address (ex. localhost)

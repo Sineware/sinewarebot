@@ -1,6 +1,6 @@
 {
   "name": "bssccbot",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Bayview Computer Club's Discord Bot",
   "main": "src/index.js",
   "dependencies": {

@@ -233,6 +233,11 @@ async function init(client, cm, ap) {
                 let text = "**SinewareBot Version " + pjson.version + "**\n";
                 text += "I am running Node " + process.version + " on " + os.platform() + " " + os.release() + "!\n";
                 let sqlVersion = (await pool.request().query("SELECT @@VERSION AS VERSION")).recordset[0].VERSION;
+                try {
+                    let ltInfo = await axios.get(process.env.TRANSLATE_API + "/spec");
+                    text += "Translations powered by " + ltInfo.data.info.title + " " + ltInfo.data.info.version + "\n";
+                } catch (e) {}
+
                 msg.channel.send(text + sqlVersion, {files: ["logo.png"]});
             }
         }
