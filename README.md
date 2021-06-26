@@ -95,8 +95,11 @@ messages translated between the channels. For example:
 When a message in English is typed into #general, it is automatically translated to Korean and Japanese:
 
 `#general`
+
 ![English Message](docs/translation/example-original-msg.png)
+
 `#general-ko`
+
 ![Translated Korean Message](docs/translation/example-translated-msg.png)
 
 The bot uses Webhooks to create messages in the channel with the user's name and avatar. Translation is handled by 
