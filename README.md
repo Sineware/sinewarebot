@@ -103,18 +103,15 @@ SQL_DB=bssccbot (don't change this, the database will be created for you)
 ```
 A ".env" file can be used to set these when running locally.
 
-### Docker
-A Docker image is available at: https://hub.docker.com/repository/docker/bsscc/bot (Be sure to set the environment variables!)
-
 #### Deploying with Docker
-BSSCCBot requires Microsoft SQL Server. The recommended way to deploy using docker is by using docker-compose, which 
-will automatically setup a BSSCCBot container and MS SQL Server container, linked with a network.
+SinewareBot requires Microsoft SQL Server. The recommended way to deploy using docker is by using docker-compose, which 
+will automatically setup a SinewareBot "bssccbot" container and MS SQL Server container, linked with a network.
 
 First create a "docker.env" file with the above environment variables set (EXCLUDING SQL_*).
 
 Then run `docker-compose pull && docker-compose up --no-start` to create the containers.
 
-Finally, start the bssccbot-mssql container, what for it to startup, then start the bssccbot container.
+Finally, start the "bssccbot-mssql" container, wait for it to startup, then start the "bssccbot" container.
 
 ### Plugin Documentation:
 
