@@ -17,6 +17,9 @@ let dispatcher;
 // YTDL Stream
 let ytdlStream;
 
+// Discord Bot Client
+let botClient;
+
 async function playSong(search, msg) {
     if(isPlaying) {
         // Add song to the queue
@@ -27,7 +30,7 @@ async function playSong(search, msg) {
         dispatcher = null;
 
         // todo smarter URL matching
-        if(search.includes("soundcloud.com")) {
+        if(search.includes("soundcloud.")) {
             msg.channel.send("Downloading SoundCloud song, please wait!");
             try {
                 fs.unlinkSync("song.wav")
@@ -100,6 +103,7 @@ async function playSong(search, msg) {
                 return;
             }
         }
+        await botClient.user.setActivity(search, {type: 'PLAYING'});
         dispatcher.stream.on('end', async () => {
             msg.channel.send("The song has finished playing!");
             isPlaying = false;
@@ -128,6 +132,7 @@ async function stopAllPlayback() {
     dispatcher = null;
     ytdlStream = null;
     isPlaying = false;
+    await botClient.user.setActivity("SinewareBot", {type: 'PLAYING'});
 }
 
 function init(client, cm, ap) {
@@ -137,6 +142,7 @@ function init(client, cm, ap) {
             "category": "Music",
             "desc": "Plays or Queues a song in a VC (!play [song name])",
             "handler": async (msg) => {
+                botClient = client;
                 try{
                     let search = ap(msg.content);
                     console.log("query:" + search[1]);
