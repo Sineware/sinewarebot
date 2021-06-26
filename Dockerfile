@@ -14,12 +14,9 @@ RUN pip3 install chatterbot_corpus
 RUN pip3 install emoji
 
 COPY package*.json ./
-RUN npm ci
+RUN npm i
 
 COPY . .
 USER root
 
-RUN ln -s /usr/bin/python3 /usr/bin/python
-
 CMD [ "node", "src/index.js" ]
-
