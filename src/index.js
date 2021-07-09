@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-console.log("Starting BSSCCBot...");
+console.log("Starting SinewareBot...");
 
 require('dotenv').config();
 const Discord = require('discord.js');
@@ -58,9 +58,9 @@ async function main() {
             await loadPlugins(client);
 
             isLoaded = true;
-            console.log("-> BSSCC Bot has started!")
+            console.log("-> SinewareBot has started!")
         } catch (e) {
-            console.error("Failed to start BSSCCBot:");
+            console.error("Failed to start SinewareBot:");
             console.error(e);
             process.exit(1);
         }

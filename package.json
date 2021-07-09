@@ -1,6 +1,6 @@
 {
   "name": "bssccbot",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Bayview Computer Club's Discord Bot",
   "main": "src/index.js",
   "dependencies": {
@@ -30,7 +30,7 @@
     "utf-8-validate": "^5.0.5",
     "wikijs": "^6.2.0",
     "youtube-dl-exec": "^1.2.3",
-    "ytdl-core": "^4.8.2",
+    "ytdl-core": "^4.8.3",
     "ytsr": "^3.5.0"
   },
   "devDependencies": {},
