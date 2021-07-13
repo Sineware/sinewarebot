@@ -1,6 +1,6 @@
 {
   "name": "sinewarebot",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "SinewareBot Discord Edition",
   "main": "src/index.js",
   "dependencies": {

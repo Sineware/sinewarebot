@@ -137,6 +137,9 @@ SQL_USER=MS SQL Server user
 SQL_PASSWORD=MS SQL Server password
 SQL_SERVER=MS SQL Server address (ex. localhost)
 SQL_DB=bssccbot (don't change this, the database will be created for you)
+
+REDIS_SERVER=Redis address (ex. localhost)
+REDIS_PORT=Redis port (ex. 6379)
 ```
 A ".env" file can be used to set these when running locally.
 

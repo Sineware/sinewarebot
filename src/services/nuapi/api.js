@@ -6,7 +6,7 @@ const os = require("os");
 const Redis = require("ioredis");
 const WebSocket = require("ws");
 
-const redis = new Redis(); // uses defaults unless given configuration object
+const redis = new Redis(process.env.REDIS_PORT, process.env.REDIS_SERVER); // uses defaults unless given configuration object
 
 const {
     DISCORD_URL,
