@@ -230,7 +230,7 @@ async function init(client, cm, ap) {
             "category": "Essentials",
             "desc": "Display bot server information",
             "handler": async (msg) => {
-                let text = "**SinewareBot Version " + pjson.version + "**\n";
+                let text = "**SinewareBot Version " + pjson.version + "** using hybrid NuAPI\n";
                 text += "I am running Node " + process.version + " on " + os.platform() + " " + os.release() + "!\n";
                 let sqlVersion = (await pool.request().query("SELECT @@VERSION AS VERSION")).recordset[0].VERSION;
                 try {

@@ -6,6 +6,10 @@ function isValid(msg) {
 }
 
 function init(client, cm) {
+    if(process.env.CHAT_LOG_ENABLE !== 'true') {
+        console.log("    -> This plugin is disabled.");
+        return;
+    }
     client.on("message", msg => {
         if(isValid(msg)) {
             let text = msg.content.replace("@", "-");

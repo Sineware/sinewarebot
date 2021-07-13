@@ -5,6 +5,14 @@ const emojiText = require("emoji-text");
 async function init(client, cm, ap) {
     if(process.env.CHAT_BOT_ENABLE !== 'true') {
         console.log("    -> This plugin is disabled.");
+        cm.push({
+            "command": "chat",
+            "category": "Chat (Disabled)",
+            "desc": "Talk to the bot! (!chat [msg])",
+            "handler": async (msg) => {
+                msg.reply("The chat plugin is currently disabled!");
+            }
+        });
         return;
     }
 

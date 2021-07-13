@@ -9,7 +9,7 @@ async function detectLanguage(msg) {
     return res.data[0].language;
 }
 
-async function init(client, cm, ap) {
+async function init(client, cm, ap, nuclient) {
     if(process.env.TRANSLATE_ENABLE !== 'true') {
         console.log("    -> This plugin is disabled.");
         return;
@@ -24,8 +24,7 @@ async function init(client, cm, ap) {
                     source: detectedLanguage,
                     target: "ko"
                 });
-                // todo use line reply when its available.
-                reaction.message.channel.send(translation.data.translatedText);
+                await nuclient.createReplyMessage(translation.data.translatedText, reaction.message.channel.id, reaction.message.id);
             } else if(reaction.emoji.name === '🇯🇵') {
                 let detectedLanguage = await detectLanguage(reaction.message.content);
                 let translation = await axios.post(translateURL, {
@@ -33,7 +32,7 @@ async function init(client, cm, ap) {
                     source: detectedLanguage,
                     target: "ja"
                 });
-                reaction.message.channel.send(translation.data.translatedText);
+                await nuclient.createReplyMessage(translation.data.translatedText, reaction.message.channel.id, reaction.message.id);
             } else if(reaction.emoji.name === '🇺🇸' || reaction.emoji.name === '🇨🇦' || reaction.emoji.name === '🇬🇧') {
                 let detectedLanguage = await detectLanguage(reaction.message.content);
                 let translation = await axios.post(translateURL, {
@@ -41,12 +40,12 @@ async function init(client, cm, ap) {
                     source: detectedLanguage,
                     target: "en"
                 });
-                reaction.message.channel.send(translation.data.translatedText);
+                await nuclient.createReplyMessage(translation.data.translatedText, reaction.message.channel.id, reaction.message.id);
             }
         });
 
         // Channel Mirroring
-        let enWebhook = await client.fetchWebhook(process.env.TRANSLATE_EN_WEBHOOKID, process.env.TRANSLATE_EN_WEBHOOKTOKEN);
+        /*let enWebhook = await client.fetchWebhook(process.env.TRANSLATE_EN_WEBHOOKID, process.env.TRANSLATE_EN_WEBHOOKTOKEN);
         let koWebhook = await client.fetchWebhook(process.env.TRANSLATE_KO_WEBHOOKID, process.env.TRANSLATE_KO_WEBHOOKTOKEN);
         let jaWebhook = await client.fetchWebhook(process.env.TRANSLATE_JA_WEBHOOKID, process.env.TRANSLATE_JA_WEBHOOKTOKEN);
 
@@ -150,7 +149,7 @@ async function init(client, cm, ap) {
                     avatarURL: msg.author.displayAvatarURL,
                 });
             }
-        });
+        });*/
     } catch (e) {
         console.trace(e);
     }

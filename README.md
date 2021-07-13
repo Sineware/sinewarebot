@@ -3,7 +3,10 @@
 
 A Discord bot with a handful of features. Originally developed as BSSCCBot 
 for the Bayview Computer Club Discord server. The latest development 
-version is usually running on the ["espidev's things"](https://discord.gg/f2SZxU83Zr) Discord server.
+version is usually running on the "[espidev's things](https://discord.gg/f2SZxU83Zr)" Discord server.
+
+> WARNING: The bot is currently not multi-server compliant. A single SinewareBot instance only officially supports 
+> one Discord server.
 
 ### Features
 
@@ -15,7 +18,7 @@ version is usually running on the ["espidev's things"](https://discord.gg/f2SZxU
 * !dmoj-problem and !dmoj-user [username]
 * Meme things (!fry @User, !celebrate [text] !celebrate-party [text])
 * Moderation features (!admin)
-* Real-time channel language translation (using [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate))
+* Language translation features (using [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate))
 
 ### Commands
 ```
@@ -87,7 +90,7 @@ Informational
 ```
 
 ### Translation
-The Translation service in SinewareBot allows you to create multiple channels which mirror each other, but with 
+<!--The Translation service in SinewareBot allows you to create multiple channels which mirror each other, but with 
 messages translated between the channels. For example:
 
 ![Channel list of #general, #general-ko, and #general-ja](docs/translation/example-channel-list.png)
@@ -106,10 +109,12 @@ The bot uses Webhooks to create messages in the channel with the user's name and
 LibreTranslate, which is a open source machine learning translation service you can self-host. Configuration is done 
 through environment variables.
 
-![Webhook list](docs/translation/example-webhooks.png)
+![Webhook list](docs/translation/example-webhooks.png)-->
 
-Translation can also be done on an on-demand basis in any channel by reacting to messages with 🇰🇷 for Korean, 🇯🇵 for Japanese, and 
- 🇺🇸/🇨🇦/🇬🇧 for English. The bot will respond with the translated message.
+> The mirrored translation channels feature is currently disabled for the time being.
+
+Translation can be done on an on-demand basis in any channel by reacting to messages with 🇰🇷 for Korean, 🇯🇵 for Japanese, and 
+ 🇺🇸/🇨🇦/🇬🇧 for English. The bot will respond with the translated message as a reply to the original.
 
 **The system is currently a very rough prototype and proof of concept! Eventually support for more languages and customization will be added.**
 
@@ -127,15 +132,6 @@ MOD_JAIL_ROLE=ID of the role to give to jailed users (this role should disable t
 
 TRANSLATE_ENABLE=enables the translation service ("true" or "false", no quotes please)
 TRANSLATE_API=http://url (libretranslate api server)
-TRANSLATE_EN_WEBHOOKID=webhook id for the english channel
-TRANSLATE_EN_WEBHOOKTOKEN=webhook token for the english channel
-TRANSLATE_EN_CHANNELID=channel id for the english channel
-TRANSLATE_JA_WEBHOOKID=japanese
-TRANSLATE_JA_WEBHOOKTOKEN=
-TRANSLATE_JA_CHANNELID=
-TRANSLATE_KO_WEBHOOKID=korean
-TRANSLATE_KO_WEBHOOKTOKEN=
-TRANSLATE_KO_CHANNELID=
 
 SQL_USER=MS SQL Server user
 SQL_PASSWORD=MS SQL Server password
@@ -145,7 +141,7 @@ SQL_DB=bssccbot (don't change this, the database will be created for you)
 A ".env" file can be used to set these when running locally.
 
 #### Deploying with Docker
-SinewareBot requires Microsoft SQL Server. The recommended way to deploy using docker is by using docker-compose, which 
+SinewareBot requires Microsoft SQL Server and Redis. The recommended way to deploy using docker is by using docker-compose, which 
 will automatically setup a SinewareBot "bssccbot" container and MS SQL Server container, linked with a network.
 
 First create a "docker.env" file with the above environment variables set (EXCLUDING SQL_*).
@@ -153,6 +149,18 @@ First create a "docker.env" file with the above environment variables set (EXCLU
 Then run `docker-compose pull && docker-compose up --no-start` to create the containers.
 
 Finally, start the "bssccbot-mssql" container, wait for it to startup, then start the "bssccbot" container.
+
+### SinewareBot NuAPI
+NuAPI is the ongoing effort to modernize SinewareBot, in part by building it directly on the Discord API.
+
+SinewareBot was originally built on DiscordJS v11 (which targets version 7 of the Discord API). NuAPI aims to replace 
+DiscordJS in SinewareBot with its own bindings to the latest version of the Discord API.
+
+Currently, SinewareBot employs a hybrid approach. Both NuAPI and DiscordJS exist within the project, and each maintains its 
+own connection with the Discord Gateway (and makes its own REST calls). Over time, calls and event handlers are being 
+migrated from DiscordJS to NuAPI.
+
+> NuAPI/NuClient documentation is coming soon.
 
 ### Plugin Documentation:
 
@@ -162,7 +170,7 @@ Plugins consist of a folder in the bot-plugins directory, and an index.js file c
 
 Plugin Template:
 ```javascript
-function init(client, cm, ap) {
+function init(client, cm, ap, nuclient) {
 
 }
 
@@ -175,7 +183,9 @@ cm -> the Command Mapping object
 
 ap -> argumentParser() helper utility.
 
-To register a command:
+nuclient -> the instance of the SinewareBot NuAPI.
+
+To register a command within the init function:
 ```javascript
 cm.push({
     "command": "",

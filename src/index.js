@@ -26,26 +26,38 @@ const {initDB, connectDB} = require('./services/database/database');
 
 const loadPlugins = require("./services/plugin-loader/plugins");
 
+const nuclient = require("./services/nuapi/api");
+
 let isLoaded = false;
 
-// Connect to Discord
-const client = new Discord.Client({disableEveryone: true, disableMentions: 'everyone'});
+async function main() {
+    console.log("Starting up NuAPI...")
+    let bot = await nuclient.connectDiscord();
+    bot.on("connected", (resumed) => {
+        log.info("NuAPI Client Started, continuing startup...");
+        // Connect to Discord
+        const client = new Discord.Client({disableEveryone: true, disableMentions: 'everyone'});
 
-client.on('ready', async () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+        client.on('ready', async () => {
+            console.log(`[Legacy API] DiscordJS logged in as ${client.user.tag}!`);
 
-    // Kick-off loading.
-    await main();
-});
+            // Kick-off loading.
+            await botMain(client);
 
-client.on('message', async (msg) => {
-    await mapCommand(msg);
-});
+        });
 
-client.login(process.env.BOT_TOKEN).then(r => {});
+        client.on('message', async (msg) => {
+            await mapCommand(msg);
+        });
+
+        client.login(process.env.BOT_TOKEN).then(r => {});
+    });
+}
+main().then(r => {});
+
 
 //Main Function
-async function main() {
+async function botMain(client) {
     if(!isLoaded) {
         try {
             // Create databases if they don't exist
@@ -55,7 +67,7 @@ async function main() {
             await connectDB();
 
             // Load Plugins
-            await loadPlugins(client);
+            await loadPlugins(client, nuclient);
 
             isLoaded = true;
             console.log("-> SinewareBot has started!")

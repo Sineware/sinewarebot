@@ -1,7 +1,7 @@
 const { readdirSync, statSync } = require('fs');
 const { join } = require('path');
 
-async function loadPlugins(client) {
+async function loadPlugins(client, nuclient) {
     // Get a list of folders in the plugins directory.
     const dirs = p => readdirSync(p).filter(f => statSync(join(p, f)).isDirectory());
     let pluginList = dirs(__dirname + "/../../bot-plugins");
@@ -15,7 +15,7 @@ async function loadPlugins(client) {
     console.log("-> Activating Plugins...");
     for(let i = 0; i < pluginList.length; i++) {
         console.log("  -> Activating plugin " + pluginList[i]);
-        await plugins[i](client, require("../../complexCommandMappings"), argumentParser);
+        await plugins[i](client, require("../../complexCommandMappings"), argumentParser, nuclient);
     }
 }
 module.exports = loadPlugins;
