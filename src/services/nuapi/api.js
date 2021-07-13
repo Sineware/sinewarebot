@@ -40,6 +40,11 @@ async function connectDiscord() {
     ws.on("open", function open() {
         log.info("Successfully established WS connection with the Discord Gateway!");
     });
+    ws.on("close", function close() {
+        log.error('Discord Gateway WS Socket disconnected, restarting...');
+        process.exit(1);
+    });
+
 
     log.info("Registering WS handler...")
     ws.on("message", async function incoming(data) {
