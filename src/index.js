@@ -35,7 +35,8 @@ async function main() {
     let bot = await nuclient.connectDiscord();
     bot.on("connected", (resumed) => {
         log.info("NuAPI Client Started, continuing startup...");
-        // Connect to Discord
+
+        // Legacy DiscordJS Client
         const client = new Discord.Client({disableEveryone: true, disableMentions: 'everyone'});
 
         client.on('ready', async () => {
@@ -46,8 +47,14 @@ async function main() {
 
         });
 
+        // Legacy Commands
         client.on('message', async (msg) => {
             await mapCommand(msg);
+        });
+
+        // NuAPI Commands
+        bot.on("MESSAGE_CREATED", (msg) => {
+            
         });
 
         client.login(process.env.BOT_TOKEN).then(r => {});

@@ -15,7 +15,7 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-async function init(client, cm, ap) {
+async function init(client, cm, ap, nuclient) {
     let pool = await sql.connect();
     cm.push(
         {

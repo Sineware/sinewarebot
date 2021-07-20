@@ -6,7 +6,7 @@ const os = require("os");
 const Redis = require("ioredis");
 const WebSocket = require("ws");
 
-const redis = new Redis(process.env.REDIS_PORT, process.env.REDIS_SERVER); // uses defaults unless given configuration object
+const redis = new Redis(process.env.REDIS_PORT, process.env.REDIS_SERVER);
 
 const {
     DISCORD_URL,
@@ -71,12 +71,15 @@ async function connectDiscord() {
                             eventEmitter.emit("connected", true);
                             break;
                         case "MESSAGE_CREATE":
-                            if(payload.d.content.startsWith(";")) {
+                            // NuAPI Internal Commands
+                            if(payload.d.content.startsWith("nu;")) {
                                 log.info(payload.t + " from " + payload.d.author.username + " (id " + payload.d.id+ " seq " + payload.s + ")");
-                                if(payload.d.content === ";test")
+                                if(payload.d.content === "nu;info")
                                     await createMessage(payload.t + " from " + payload.d.author.username + " (id " + payload.d.id+ " seq " + payload.s + ")", payload.d.channel_id);
                                 else
                                     await createMessage(payload.d.content.substring(1) + ": Command not found.", payload.d.channel_id);
+                            } else {
+                                eventEmitter.emit("MESSAGE_CREATE", payload.d);
                             }
                             break;
                         default:
@@ -205,4 +208,5 @@ async function createReplyMessage(content, channelid, msgid) {
     log.info(body);
 }
 
+// NuClient
 module.exports = {DISCORD_API_VERSION, connectDiscord, createMessage, createReplyMessage, callAPI, eventEmitter}

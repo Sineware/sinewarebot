@@ -77,4 +77,6 @@ function argumentParser(msg) {
     return [msg.substr(0, msg.indexOf(' ')), msg.substr(msg.indexOf(' '))];
 }
 
+// NuAPI
+
 module.exports = {mapCommand};
